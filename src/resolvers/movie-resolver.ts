@@ -1,6 +1,4 @@
-import { getMovie, getMovies, getSuggessions } from "./services";
-
-const BASE_URL = "https://yts.mx/api/v2";
+import { getMovie, getMovies, getSuggessions } from "../service/movie-services";
 
 type TMovie = {
   movie_id: number;
@@ -9,7 +7,8 @@ type TMovies = {
   limit: number;
   minimum_rating: number;
 };
-const resolvers = {
+
+const movieResolver = {
   Query: {
     movie: async (_: any, { movie_id }: TMovie) => {
       return await getMovie(movie_id);
@@ -23,4 +22,4 @@ const resolvers = {
   },
 };
 
-export default resolvers;
+export default movieResolver;

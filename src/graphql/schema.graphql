@@ -22,8 +22,53 @@ type Movie {
   year: Int!
 }
 
+type User {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  age: Int!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  description: String
+  regDate: String!
+  imgUrl: String
+  author: String!
+  content: String
+}
+
+type Preview {
+  id: Int!
+  title: String!
+  description: String
+  regDate: String!
+  imgUrl: String
+  author: String!
+}
+
 type Query {
   movie(movie_id: Int!): Movie
   movies(limit: Int, minimum_rating: Float): [Movies]
   suggesions(movie_id: Int!): [Movies]
+  users: [User]
+  user(id: Int!): User
+  posts: [Post]
+  post(id: Int!): Post
+  previews: [Preview]
+}
+
+input PostInput {
+  id: Int!
+  title: String!
+  description: String
+  regDate: String!
+  imgUrl: String
+  author: String!
+  content: String!
+}
+
+type Mutation {
+  addPost(input: PostInput): Boolean!
 }
