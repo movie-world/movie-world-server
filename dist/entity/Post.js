@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,10 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Post = void 0;
-const class_validator_1 = require("class-validator");
-const typeorm_1 = require("typeorm");
+import { IsOptional, IsString } from "class-validator";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 let Post = class Post {
     id;
     title;
@@ -21,38 +18,38 @@ let Post = class Post {
     imgUrl;
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: "int", width: 20 }),
+    PrimaryColumn({ type: "int", width: 20 }),
     __metadata("design:type", Number)
 ], Post.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    (0, class_validator_1.IsString)(),
+    Column(),
+    IsString(),
     __metadata("design:type", String)
 ], Post.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
+    Column({ nullable: true }),
+    IsOptional(),
+    IsString(),
     __metadata("design:type", String)
 ], Post.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    (0, class_validator_1.IsString)(),
+    Column(),
+    IsString(),
     __metadata("design:type", String)
 ], Post.prototype, "regDate", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: "50" }),
-    (0, class_validator_1.IsString)(),
+    Column({ type: "varchar", length: "50" }),
+    IsString(),
     __metadata("design:type", String)
 ], Post.prototype, "author", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
+    Column({ nullable: true }),
+    IsOptional(),
+    IsString(),
     __metadata("design:type", String)
 ], Post.prototype, "imgUrl", void 0);
 Post = __decorate([
-    (0, typeorm_1.Entity)()
+    Entity()
 ], Post);
-exports.Post = Post;
+export { Post };
 //# sourceMappingURL=Post.js.map

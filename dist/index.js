@@ -1,14 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const graphql_yoga_1 = require("graphql-yoga");
-require("reflect-metadata");
-const typeorm_1 = require("typeorm");
-const movie_love_resolver_1 = __importDefault(require("./resolvers/movie-love-resolver"));
-const movie_resolver_1 = __importDefault(require("./resolvers/movie-resolver"));
+import "dotenv/config";
+import { GraphQLServer } from "graphql-yoga";
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+import movieLoveResolver from "./resolvers/movie-love-resolver";
+import movieResolver from "./resolvers/movie-resolver";
 const connectionOptions = {
     type: "mysql",
     host: process.env.DB_HOST,
@@ -27,12 +22,12 @@ const connectionOptions = {
         subscribersDir: "src/subscriber",
     },
 };
-(0, typeorm_1.createConnection)(connectionOptions)
+createConnection(connectionOptions)
     .then(async (connection) => {
     console.log("start database...");
-    const server = new graphql_yoga_1.GraphQLServer({
+    const server = new GraphQLServer({
         typeDefs: ["src/graphql/schema.graphql"],
-        resolvers: [movie_resolver_1.default, movie_love_resolver_1.default],
+        resolvers: [movieResolver, movieLoveResolver],
     });
     server.start(({ port }) => {
         console.log("start Graphql-yoga server", port);

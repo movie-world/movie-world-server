@@ -1,20 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.addPost = exports.getPostPreviews = exports.getPost = exports.getPosts = exports.getUser = exports.getUsers = void 0;
-const typeorm_1 = require("typeorm");
-const Content_1 = require("../entity/Content");
-const Post_1 = require("../entity/Post");
-const User_1 = require("../entity/User");
-const getUsers = async () => {
-    return await (0, typeorm_1.getRepository)(User_1.User).find();
+import { getRepository } from "typeorm";
+import { Content } from "../entity/Content";
+import { Post } from "../entity/Post";
+import { User } from "../entity/User";
+export const getUsers = async () => {
+    return await getRepository(User).find();
 };
-exports.getUsers = getUsers;
-const getUser = async (id) => {
-    return await (0, typeorm_1.getRepository)(User_1.User).findOne(id);
+export const getUser = async (id) => {
+    return await getRepository(User).findOne(id);
 };
-exports.getUser = getUser;
-const getPosts = async () => {
-    return await (0, typeorm_1.getRepository)(Content_1.Content)
+export const getPosts = async () => {
+    return await getRepository(Content)
         .createQueryBuilder("content")
         .select("post.id", "id")
         .addSelect("post.title", "title")
@@ -23,12 +18,11 @@ const getPosts = async () => {
         .addSelect("post.imgUrl", "imgUrl")
         .addSelect("post.author", "author")
         .addSelect("content.content", "content")
-        .leftJoin(Post_1.Post, "post", "post.id = content.id")
+        .leftJoin(Post, "post", "post.id = content.id")
         .getRawMany();
 };
-exports.getPosts = getPosts;
-const getPost = async (id) => {
-    return await (0, typeorm_1.getRepository)(Content_1.Content)
+export const getPost = async (id) => {
+    return await getRepository(Content)
         .createQueryBuilder("content")
         .select("post.id", "id")
         .addSelect("post.title", "title")
@@ -37,13 +31,12 @@ const getPost = async (id) => {
         .addSelect("post.imgUrl", "imgUrl")
         .addSelect("post.author", "author")
         .addSelect("content.content", "content")
-        .leftJoin(Post_1.Post, "post", "post.id = content.id")
+        .leftJoin(Post, "post", "post.id = content.id")
         .where("post.id = :postId", { postId: id })
         .getRawOne();
 };
-exports.getPost = getPost;
-const getPostPreviews = async () => {
-    return await (0, typeorm_1.getRepository)(Post_1.Post)
+export const getPostPreviews = async () => {
+    return await getRepository(Post)
         .createQueryBuilder("post")
         .select("post.id", "id")
         .addSelect("post.title", "title")
@@ -53,21 +46,20 @@ const getPostPreviews = async () => {
         .addSelect("post.author", "author")
         .getRawMany();
 };
-exports.getPostPreviews = getPostPreviews;
-const addPost = async (input) => {
+export const addPost = async (input) => {
     try {
-        const post = new Post_1.Post();
+        const post = new Post();
         post.id = input.id;
         post.title = input.title;
         post.description = input.description;
         post.imgUrl = input.imgUrl;
         post.regDate = input.regDate;
         post.author = input.author;
-        await (0, typeorm_1.getRepository)(Post_1.Post).save(post);
-        const content = new Content_1.Content();
+        await getRepository(Post).save(post);
+        const content = new Content();
         content.id = input.id;
         content.content = input.content;
-        await (0, typeorm_1.getRepository)(Content_1.Content).save(content);
+        await getRepository(Content).save(content);
         return true;
     }
     catch (err) {
@@ -75,5 +67,4 @@ const addPost = async (input) => {
         return false;
     }
 };
-exports.addPost = addPost;
 //# sourceMappingURL=movie-love-service.js.map
