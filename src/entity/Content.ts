@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
-import { Post } from "./Post";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Content {
@@ -8,5 +7,4 @@ export class Content {
 
   @Column({ type: "text" })
   content: string;
-
 }
