@@ -13,6 +13,12 @@ exports.Post = void 0;
 const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
 let Post = class Post {
+    id;
+    title;
+    description;
+    regDate;
+    author;
+    imgUrl;
 };
 __decorate([
     (0, typeorm_1.PrimaryColumn)({ type: "int", width: 20 }),

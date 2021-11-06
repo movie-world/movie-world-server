@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Content = void 0;
 const typeorm_1 = require("typeorm");
 let Content = class Content {
+    id;
+    content;
 };
 __decorate([
     (0, typeorm_1.PrimaryColumn)({ type: "int", width: 20 }),

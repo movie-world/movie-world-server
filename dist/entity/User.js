@@ -13,6 +13,10 @@ exports.User = void 0;
 const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
 let User = class User {
+    id;
+    firstName;
+    lastName;
+    age;
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),

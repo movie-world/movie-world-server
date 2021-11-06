@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -26,7 +17,7 @@ const connectionOptions = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     synchronize: false,
-    logging: true,
+    logging: false,
     entities: ["src/entity/**/*.ts"],
     migrations: ["src/migration/**/*.ts"],
     subscribers: ["src/subscriber/**/*.ts"],
@@ -37,7 +28,7 @@ const connectionOptions = {
     },
 };
 (0, typeorm_1.createConnection)(connectionOptions)
-    .then((connection) => __awaiter(void 0, void 0, void 0, function* () {
+    .then(async (connection) => {
     console.log("start database...");
     const server = new graphql_yoga_1.GraphQLServer({
         typeDefs: ["src/graphql/schema.graphql"],
@@ -46,6 +37,6 @@ const connectionOptions = {
     server.start(({ port }) => {
         console.log("start Graphql-yoga server", port);
     });
-}))
+})
     .catch((error) => console.log(error));
 //# sourceMappingURL=index.js.map
