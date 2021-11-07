@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { GraphQLServer } from "graphql-yoga";
+import { ContextParameters } from "graphql-yoga/dist/types";
 import "reflect-metadata";
 import { ConnectionOptions, createConnection } from "typeorm";
 import movieLoveResolver from "./resolvers/movie-love-resolver";
@@ -13,7 +14,7 @@ const connectionOptions: ConnectionOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: false,
-  logging: process.env.NODE_ENV === "dev" ? true : false,
+  logging: process.env.NODE_ENV === "PROD" ? false : true,
   entities: [`${isProd()}/entity/**/*.*`],
   migrations: [`${isProd()}/migration/**/*.*`],
   subscribers: [`${isProd()}/subscriber/**/*.*`],
@@ -54,7 +55,20 @@ createConnection(connectionOptions)
     const server = new GraphQLServer({
       typeDefs: [`${isProd()}/graphql/schema.graphql`],
       resolvers: [movieResolver, movieLoveResolver],
+      context: (req: ContextParameters) => {
+        console.log(req.request.headers.origin);
+        const accessUrl = [
+          process.env.NODE_ENV === "PROD"
+            ? "https://movie-world.github.io"
+            : "http://localhost:4000",
+        ];
+
+        if (!accessUrl.includes(String(req.request.headers.origin))) {
+          throw new Error("접근권한이 없습니다.");
+        }
+      },
     });
+
     server.start(({ port }) => {
       console.log("start Graphql-yoga server", port);
     });
