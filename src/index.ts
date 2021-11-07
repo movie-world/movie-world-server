@@ -69,7 +69,14 @@ createConnection(connectionOptions)
       },
     });
 
-    server.start(({ port }) => {
+    const options = {
+      port: 4000,
+      endpoint: "/graphql",
+      // subscriptions: '/subscriptions',
+      playground: "/playground",
+    };
+
+    server.start(options, ({ port }) => {
       console.log("start Graphql-yoga server", port);
     });
   })
