@@ -4,23 +4,23 @@ import "reflect-metadata";
 import { ConnectionOptions, createConnection } from "typeorm";
 import movieLoveResolver from "./resolvers/movie-love-resolver";
 import movieResolver from "./resolvers/movie-resolver";
-
+const isProd = () => (process.env.NODE_ENV === "PROD" ? "./dist" : "src");
 const connectionOptions: ConnectionOptions = {
-  type: "mysql",
+  type: "mariadb",
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT),
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: false,
-  logging: false,
-  entities: ["src/entity/**/*.ts"],
-  migrations: ["src/migration/**/*.ts"],
-  subscribers: ["src/subscriber/**/*.ts"],
+  logging: process.env.NODE_ENV === "dev" ? true : false,
+  entities: [`${isProd()}/entity/**/*.*`],
+  migrations: [`${isProd()}/migration/**/*.*`],
+  subscribers: [`${isProd()}/subscriber/**/*.*`],
   cli: {
-    entitiesDir: "src/entity",
-    migrationsDir: "src/migration",
-    subscribersDir: "src/subscriber",
+    entitiesDir: `${isProd()}/entity`,
+    migrationsDir: `${isProd()}/migration`,
+    subscribersDir: `${isProd()}/subscriber`,
   },
 };
 createConnection(connectionOptions)
@@ -52,7 +52,7 @@ createConnection(connectionOptions)
 
     // console.log("Here you can setup and run express/koa/any other framework.");
     const server = new GraphQLServer({
-      typeDefs: ["src/graphql/schema.graphql"],
+      typeDefs: [`${isProd()}/graphql/schema.graphql`],
       resolvers: [movieResolver, movieLoveResolver],
     });
     server.start(({ port }) => {

@@ -1,14 +1,13 @@
 {
   "name": "movie-world-server",
   "version": "1.0.0",
-  "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "postinstall": "tsc",
-    "start": "ts-node src/index.ts",
-    "dev": "cross-env NODE_ENV=dev nodemon --exec ts-node src/index.ts -e ts,graphql",
-    "test": ""
+    "dev": "nodemon --exec ts-node src/index.ts -e ts,graphql",
+    "start": "cross-env NODE_ENV=PROD node dist/index.js",
+    "build": "rm -rf dist && tsc && yarn copy:graphql",
+    "postinstall": "yarn build",
+    "copy:graphql": "cp -r -v src/graphql dist/"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
