@@ -10,6 +10,9 @@ import {
 type TUser = {
   id: number;
 };
+type IPostId = {
+  postId: number;
+};
 
 export type TPost = {
   id: number;
@@ -31,15 +34,15 @@ const movieLoveResolver = {
     posts: async () => {
       return await getPosts();
     },
-    post: async (_: any, { id }) => {
-      return await getPost(id);
+    post: async (_: any, { postId }: IPostId) => {
+      return await getPost(postId);
     },
     previews: async () => {
       return await getPostPreviews();
     },
   },
   Mutation: {
-    addPost: async (_: any, { input }) => {
+    addPost: async (_: any, input: TPost) => {
       return await addPost(input);
     },
   },

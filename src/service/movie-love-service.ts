@@ -2,7 +2,6 @@ import { getRepository } from "typeorm";
 import { Content } from "../entity/Content";
 import { Post } from "../entity/Post";
 import { User } from "../entity/User";
-import { TPost } from "../resolvers/movie-love-resolver";
 
 export const getUsers = async () => {
   return await getRepository(User).find();
@@ -33,7 +32,7 @@ export const getPosts = async () => {
   //   .getRawMany();
 };
 
-export const getPost = async (id: number) => {
+export const getPost = async (postId: number) => {
   return await getRepository(Content)
     .createQueryBuilder("content")
     .select("post.id", "id")
@@ -44,7 +43,7 @@ export const getPost = async (id: number) => {
     .addSelect("post.author", "author")
     .addSelect("content.content", "content")
     .leftJoin(Post, "post", "post.id = content.id")
-    .where("post.id = :postId", { postId: id })
+    .where("post.id = :postId", { postId: postId })
     .getRawOne();
 };
 
@@ -60,19 +59,19 @@ export const getPostPreviews = async () => {
     .getRawMany();
 };
 
-export const addPost = async (input: TPost) => {
+export const addPost = async (args: any) => {
   try {
     const post = new Post();
-    post.id = input.id;
-    post.title = input.title;
-    post.description = input.description;
-    post.imgUrl = input.imgUrl;
-    post.regDate = input.regDate;
-    post.author = input.author;
+    post.id = args.input.id;
+    post.title = args.input.title;
+    post.description = args.input.description;
+    post.imgUrl = args.input.imgUrl;
+    post.regDate = args.input.regDate;
+    post.author = args.input.author;
     await getRepository(Post).save(post);
     const content = new Content();
-    content.id = input.id;
-    content.content = input.content;
+    content.id = args.input.id;
+    content.content = args.input.content;
     await getRepository(Content).save(content);
     return true;
   } catch (err) {

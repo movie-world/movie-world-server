@@ -55,7 +55,7 @@ type Query {
   users: [User]
   user(id: Int!): User
   posts: [Post]
-  post(id: Int!): Post
+  post(postId: Int!): Post
   previews: [Preview]
 }
 
