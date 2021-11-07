@@ -56,13 +56,13 @@ createConnection(connectionOptions)
       typeDefs: [`${isProd()}/graphql/schema.graphql`],
       resolvers: [movieResolver, movieLoveResolver],
       context: (req: ContextParameters) => {
-        console.log(req.request.headers.origin);
-        const accessUrl = [
+        const accessUrl =
           process.env.NODE_ENV === "PROD"
-            ? "https://movie-world.github.io"
-            : "http://localhost:4000",
-        ];
-
+            ? [
+                "https://movie-world-server.herokuapp.com",
+                "https://movie-world.github.io",
+              ]
+            : ["http://localhost:4000"];
         if (!accessUrl.includes(String(req.request.headers.origin))) {
           throw new Error("접근권한이 없습니다.");
         }
