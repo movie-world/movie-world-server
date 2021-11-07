@@ -61,22 +61,16 @@ createConnection(connectionOptions)
             ? [
                 "https://movie-world-server.herokuapp.com",
                 "https://movie-world.github.io",
+                "http://localhost:3000",
               ]
-            : ["http://localhost:4000"];
+            : ["http://localhost:3000", "http://localhost:4000"];
         if (!accessUrl.includes(String(req.request.headers.origin))) {
           throw new Error("접근권한이 없습니다.");
         }
       },
     });
 
-    const options = {
-      port: 4000,
-      endpoint: "/graphql",
-      // subscriptions: '/subscriptions',
-      playground: "/playground",
-    };
-
-    server.start(options, ({ port }) => {
+    server.start(({ port }) => {
       console.log("start Graphql-yoga server", port);
     });
   })
